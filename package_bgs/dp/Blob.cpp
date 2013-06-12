@@ -17,12 +17,12 @@ along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 /************************************************************************
 Blob.cpp
 
-- FUNCIONALITAT: Implementació de la classe CBlob
+- FUNCIONALITAT: Implementació de la classe CBlob2
 - AUTOR: Inspecta S.L.
 MODIFICACIONS (Modificació, Autor, Data):
 
 
-FUNCTIONALITY: Implementation of the CBlob class and some helper classes to perform
+FUNCTIONALITY: Implementation of the CBlob2 class and some helper classes to perform
 some calculations on it
 AUTHOR: Inspecta S.L.
 MODIFICATIONS (Modification, Author, Date):
@@ -34,7 +34,7 @@ MODIFICATIONS (Modification, Author, Date):
 #include "Blob.h"
 
 /**
-- FUNCIÓ: CBlob
+- FUNCIÓ: CBlob2
 - FUNCIONALITAT: Constructor estàndard 
 - PARÀMETRES:
 - RESULTAT:
@@ -46,7 +46,7 @@ per a les cantonades del blob
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlob
+- FUNCTION: CBlob2
 - FUNCTIONALITY: Standard constructor
 - PARAMETERS:
 - RESULT:
@@ -56,7 +56,7 @@ per a les cantonades del blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlob::CBlob()
+CBlob2::CBlob2()
 {
   etiqueta = -1;		// Flag indicates null region
   exterior = 0;
@@ -83,7 +83,7 @@ CBlob::CBlob()
 }
 
 /**
-- FUNCIÓ: CBlob
+- FUNCIÓ: CBlob2
 - FUNCIONALITAT: Constructor de còpia 
 - PARÀMETRES:
 - RESULTAT:
@@ -93,7 +93,7 @@ CBlob::CBlob()
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlob
+- FUNCTION: CBlob2
 - FUNCTIONALITY: Copy constructor
 - PARAMETERS:
 - RESULT:
@@ -102,7 +102,7 @@ CBlob::CBlob()
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlob::CBlob( const CBlob &src )
+CBlob2::CBlob2( const CBlob2 &src )
 {
   // copiem les propietats del blob origen a l'actual
   etiqueta = src.etiqueta;		
@@ -145,7 +145,7 @@ CBlob::CBlob( const CBlob &src )
 
   cvEndWriteSeq( &writer );
 }
-CBlob::CBlob( const CBlob *src )
+CBlob2::CBlob2( const CBlob2 *src )
 {
   // copiem les propietats del blob origen a l'actual
   etiqueta = src->etiqueta;		
@@ -190,7 +190,7 @@ CBlob::CBlob( const CBlob *src )
 }
 
 /**
-- FUNCIÓ: ~CBlob
+- FUNCIÓ: ~CBlob2
 - FUNCIONALITAT: Destructor estàndard 
 - PARÀMETRES:
 - RESULTAT:
@@ -200,7 +200,7 @@ CBlob::CBlob( const CBlob *src )
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlob
+- FUNCTION: CBlob2
 - FUNCTIONALITY: Standard destructor
 - PARAMETERS:
 - RESULT:
@@ -209,7 +209,7 @@ CBlob::CBlob( const CBlob *src )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlob::~CBlob()
+CBlob2::~CBlob2()
 {
   // Eliminar vèrtexs del blob 
   cvClearSeq(edges);
@@ -241,7 +241,7 @@ CBlob::~CBlob()
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlob& CBlob::operator=(const CBlob &src )
+CBlob2& CBlob2::operator=(const CBlob2 &src )
 {
   // si ja són el mateix, no cal fer res
   if (this != &src)
@@ -323,7 +323,7 @@ CBlob& CBlob::operator=(const CBlob &src )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlob::FillBlob( IplImage *imatge, CvScalar color, int offsetX /*=0*/, int offsetY /*=0*/) const					  
+void CBlob2::FillBlob( IplImage *imatge, CvScalar color, int offsetX /*=0*/, int offsetY /*=0*/) const					  
 {
 
   //verifiquem que existeixi el blob i que tingui cantonades
@@ -403,7 +403,7 @@ void CBlob::FillBlob( IplImage *imatge, CvScalar color, int offsetX /*=0*/, int 
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlob::CopyEdges( CBlob &destination ) const
+void CBlob2::CopyEdges( CBlob2 &destination ) const
 {
   CvSeqReader reader;
   CvSeqWriter writer;
@@ -441,7 +441,7 @@ void CBlob::CopyEdges( CBlob &destination ) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlob::ClearEdges()
+void CBlob2::ClearEdges()
 {
   // Eliminar vèrtexs del blob eliminat
   cvClearSeq( edges );
@@ -471,7 +471,7 @@ void CBlob::ClearEdges()
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-bool CBlob::GetConvexHull( CvSeq **dst ) const
+bool CBlob2::GetConvexHull( CvSeq **dst ) const
 {
   if( edges != NULL && edges->total > 0)
   {
@@ -503,7 +503,7 @@ bool CBlob::GetConvexHull( CvSeq **dst ) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CvBox2D CBlob::GetEllipse() const
+CvBox2D CBlob2::GetEllipse() const
 {
   CvBox2D elipse;
   // necessitem 6 punts per calcular l'elipse
@@ -553,7 +553,7 @@ Implementation of the helper classes to perform operations on blobs
 - CREATION DATE: 20-07-2004.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetMoment::operator()(const CBlob &blob) const
+double CBlob2GetMoment::operator()(const CBlob2 &blob) const
 {
   //Moment 00
   if((m_p==0) && (m_q==0))
@@ -594,7 +594,7 @@ associades retorna el perímetre normal del blob.
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobGetHullPerimeter
+- FUNCTION: CBlob2GetHullPerimeter
 - FUNCTIONALITY: Calculates the convex hull perimeter of the blob
 - PARAMETERS:
 - RESULT:
@@ -605,7 +605,7 @@ blob edges could not be retrieved
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetHullPerimeter::operator()(const CBlob &blob) const
+double CBlob2GetHullPerimeter::operator()(const CBlob2 &blob) const
 {
   if(blob.Edges() != NULL && blob.Edges()->total > 0)
   {
@@ -615,7 +615,7 @@ double CBlobGetHullPerimeter::operator()(const CBlob &blob) const
   return blob.Perimeter();
 }
 
-double CBlobGetHullArea::operator()(const CBlob &blob) const
+double CBlob2GetHullArea::operator()(const CBlob2 &blob) const
 {
   if(blob.Edges() != NULL && blob.Edges()->total > 0)
   {
@@ -638,7 +638,7 @@ double CBlobGetHullArea::operator()(const CBlob &blob) const
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobGetMinXatMinY
+- FUNCTION: CBlob2GetMinXatMinY
 - FUNCTIONALITY: Calculates the minimum X on the minimum Y
 - PARAMETERS:
 - RESULT:
@@ -647,7 +647,7 @@ double CBlobGetHullArea::operator()(const CBlob &blob) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetMinXatMinY::operator()(const CBlob &blob) const
+double CBlob2GetMinXatMinY::operator()(const CBlob2 &blob) const
 {
   double MinX_at_MinY = LONG_MAX;
 
@@ -681,7 +681,7 @@ double CBlobGetMinXatMinY::operator()(const CBlob &blob) const
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobGetMinXatMinY
+- FUNCTION: CBlob2GetMinXatMinY
 - FUNCTIONALITY: Calculates the minimum Y on the maximum X
 - PARAMETERS:
 - RESULT:
@@ -690,7 +690,7 @@ double CBlobGetMinXatMinY::operator()(const CBlob &blob) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetMinYatMaxX::operator()(const CBlob &blob) const
+double CBlob2GetMinYatMaxX::operator()(const CBlob2 &blob) const
 {
   double MinY_at_MaxX = LONG_MAX;
 
@@ -724,7 +724,7 @@ double CBlobGetMinYatMaxX::operator()(const CBlob &blob) const
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobGetMaxXatMaxY
+- FUNCTION: CBlob2GetMaxXatMaxY
 - FUNCTIONALITY: Calculates the maximum X on the maximum Y
 - PARAMETERS:
 - RESULT:
@@ -733,7 +733,7 @@ double CBlobGetMinYatMaxX::operator()(const CBlob &blob) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetMaxXatMaxY::operator()(const CBlob &blob) const
+double CBlob2GetMaxXatMaxY::operator()(const CBlob2 &blob) const
 {
   double MaxX_at_MaxY = LONG_MIN;
 
@@ -767,7 +767,7 @@ double CBlobGetMaxXatMaxY::operator()(const CBlob &blob) const
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobGetMaxYatMinX
+- FUNCTION: CBlob2GetMaxYatMinX
 - FUNCTIONALITY: Calculates the maximum Y on the minimum X
 - PARAMETERS:
 - RESULT:
@@ -776,7 +776,7 @@ double CBlobGetMaxXatMaxY::operator()(const CBlob &blob) const
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetMaxYatMinX::operator()(const CBlob &blob) const
+double CBlob2GetMaxYatMinX::operator()(const CBlob2 &blob) const
 {
   double MaxY_at_MinX = LONG_MIN;
 
@@ -801,7 +801,7 @@ double CBlobGetMaxYatMinX::operator()(const CBlob &blob) const
 Retorna l'elongació del blob (longitud/amplada)
 */
 /**
-- FUNCTION: CBlobGetElongation
+- FUNCTION: CBlob2GetElongation
 - FUNCTIONALITY: Calculates the elongation of the blob ( length/breadth )
 - PARAMETERS:
 - RESULT:
@@ -811,7 +811,7 @@ Retorna l'elongació del blob (longitud/amplada)
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetElongation::operator()(const CBlob &blob) const
+double CBlob2GetElongation::operator()(const CBlob2 &blob) const
 {
   double ampladaC,longitudC,amplada,longitud;
 
@@ -829,7 +829,7 @@ double CBlobGetElongation::operator()(const CBlob &blob) const
 Retorna la compacitat del blob
 */
 /**
-- FUNCTION: CBlobGetCompactness
+- FUNCTION: CBlob2GetCompactness
 - FUNCTIONALITY: Calculates the compactness of the blob 
 ( maximum for circle shaped blobs, minimum for the rest)
 - PARAMETERS:
@@ -839,7 +839,7 @@ Retorna la compacitat del blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetCompactness::operator()(const CBlob &blob) const
+double CBlob2GetCompactness::operator()(const CBlob2 &blob) const
 {
   if( blob.Area() != 0.0 )
     return (double) pow(blob.Perimeter(),2)/(4*CV_PI*blob.Area());
@@ -851,7 +851,7 @@ double CBlobGetCompactness::operator()(const CBlob &blob) const
 Retorna la rugositat del blob
 */
 /**
-- FUNCTION: CBlobGetRoughness
+- FUNCTION: CBlob2GetRoughness
 - FUNCTIONALITY: Calculates the roughness of the blob 
 ( ratio between perimeter and convex hull perimeter)
 - PARAMETERS:
@@ -861,9 +861,9 @@ Retorna la rugositat del blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetRoughness::operator()(const CBlob &blob) const
+double CBlob2GetRoughness::operator()(const CBlob2 &blob) const
 {
-  CBlobGetHullPerimeter getHullPerimeter = CBlobGetHullPerimeter();
+  CBlob2GetHullPerimeter getHullPerimeter = CBlob2GetHullPerimeter();
 
   double hullPerimeter = getHullPerimeter(blob);
 
@@ -877,7 +877,7 @@ double CBlobGetRoughness::operator()(const CBlob &blob) const
 Retorna la longitud del blob
 */
 /**
-- FUNCTION: CBlobGetLength
+- FUNCTION: CBlob2GetLength
 - FUNCTIONALITY: Calculates the lenght of the blob (the biggest axis of the blob)
 - PARAMETERS:
 - RESULT:
@@ -887,7 +887,7 @@ Retorna la longitud del blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetLength::operator()(const CBlob &blob) const
+double CBlob2GetLength::operator()(const CBlob2 &blob) const
 {
   double ampladaC,longitudC;
   double tmp;
@@ -910,7 +910,7 @@ double CBlobGetLength::operator()(const CBlob &blob) const
 Retorna l'amplada del blob
 */
 /**
-- FUNCTION: CBlobGetBreadth
+- FUNCTION: CBlob2GetBreadth
 - FUNCTIONALITY: Calculates the breadth of the blob (the smallest axis of the blob)
 - PARAMETERS:
 - RESULT:
@@ -920,7 +920,7 @@ Retorna l'amplada del blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetBreadth::operator()(const CBlob &blob) const
+double CBlob2GetBreadth::operator()(const CBlob2 &blob) const
 {
   double ampladaC,longitudC;
   double tmp;
@@ -943,7 +943,7 @@ double CBlobGetBreadth::operator()(const CBlob &blob) const
 Calcula la distància entre un punt i el centre del blob
 */
 /**
-- FUNCTION: CBlobGetDistanceFromPoint
+- FUNCTION: CBlob2GetDistanceFromPoint
 - FUNCTIONALITY: Calculates the euclidean distance between the blob center and 
 the point specified in the constructor
 - PARAMETERS:
@@ -953,11 +953,11 @@ the point specified in the constructor
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetDistanceFromPoint::operator()(const CBlob &blob) const
+double CBlob2GetDistanceFromPoint::operator()(const CBlob2 &blob) const
 {
   double xmitjana, ymitjana;
-  CBlobGetXCenter getXCenter;
-  CBlobGetYCenter getYCenter;
+  CBlob2GetXCenter getXCenter;
+  CBlob2GetYCenter getYCenter;
 
   xmitjana = m_x - getXCenter( blob );
   ymitjana = m_y - getYCenter( blob );
@@ -988,14 +988,14 @@ rectangular bounding box of a blob
 - CREATION DATE: 16-01-2006.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobGetXYInside::operator()(const CBlob &blob) const
+double CBlob2GetXYInside::operator()(const CBlob2 &blob) const
 {
   if( blob.Edges() == NULL || blob.Edges()->total == 0 ) return 0.0;
 
   // passem els punts del blob a un vector de punts de les STL
   CvSeqReader reader;
-  CBlob::vectorPunts vectorEdges;
-  CBlob::vectorPunts::iterator itEdges, itEdgesSeguent;
+  CBlob2::vectorPunts vectorEdges;
+  CBlob2::vectorPunts::iterator itEdges, itEdgesSeguent;
   CvPoint edgeactual;
   bool dinsBlob;
 
@@ -1012,7 +1012,7 @@ double CBlobGetXYInside::operator()(const CBlob &blob) const
   if( vectorEdges.size() == 0 ) return 0.0;
 
   // ordenem el vector per les Y's i les X's d'esquerra a dreta
-  std::sort( vectorEdges.begin(), vectorEdges.end(), CBlob::comparaCvPoint() );
+  std::sort( vectorEdges.begin(), vectorEdges.end(), CBlob2::comparaCvPoint() );
 
   // recorrem el punts del blob de la mateixa fila que el punt d'entrada
   // i mirem si la X del punt d'entrada està entre dos coordenades "plenes"

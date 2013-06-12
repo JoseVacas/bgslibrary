@@ -99,9 +99,9 @@ void VideoCapture::setCamera(int index)
 void VideoCapture::setUpCamera()
 {
   std::cout << "Camera index:" << cameraIndex << std::endl;
-  capture = cvCaptureFromCAM(cameraIndex);
+  capture.open(cameraIndex);
 
-  if(!capture)
+  if(!capture.isOpened())
     std::cerr << "Cannot open initialize webcam!\n" << std::endl;
 }
 
@@ -115,9 +115,9 @@ void VideoCapture::setVideo(std::string filename)
 
 void VideoCapture::setUpVideo()
 {
-  capture = cvCaptureFromFile(videoFileName.c_str());
+  capture.open(videoFileName);
 
-  if(!capture)
+  if(!capture.isOpened())
     std::cerr << "Cannot open video file "<< videoFileName << std::endl;
 }
 
@@ -127,17 +127,20 @@ void VideoCapture::start()
 
   if(useCamera) setUpCamera();
   if(useVideo)  setUpVideo();
-  if(!capture)  std::cerr << "Capture error..." << std::endl;
+  if(!capture.isOpened())  std::cerr << "Capture error..." << std::endl;
   
-  int input_fps = cvGetCaptureProperty(capture,CV_CAP_PROP_FPS);
+  int input_fps = capture.get(CV_CAP_PROP_FPS);
   std::cout << "input->fps:" << input_fps << std::endl;
 
-  IplImage* frame1 = cvQueryFrame(capture);
-  frame = cvCreateImage(cvSize((int)((frame1->width*input_resize_percent)/100) , (int)((frame1->height*input_resize_percent)/100)), frame1->depth, frame1->nChannels);
+  cv::Mat frame1;
+  capture >> frame1;
+  //frame = cvCreateImage(cvSize((int)((frame1->width*input_resize_percent)/100) , (int)((frame1->height*input_resize_percent)/100)), frame1->depth, frame1->nChannels);
+  cv::resize(frame1, frame, cv::Size(0, 0), input_resize_percent / 100.0,
+          input_resize_percent / 100.0);
   //cvCreateImage(cvSize(frame1->width/input_resize_factor, frame1->height/input_resize_factor), frame1->depth, frame1->nChannels);
   std::cout << "input->resize_percent:" << input_resize_percent << std::endl;
-  std::cout << "input->width:" << frame->width << std::endl;
-  std::cout << "input->height:" << frame->height << std::endl;
+  std::cout << "input->width:" << frame.cols << std::endl;
+  std::cout << "input->height:" << frame.rows << std::endl;
 
   double loopDelay = 33.333;
   if(input_fps > 0)
@@ -149,13 +152,13 @@ void VideoCapture::start()
   {
     frameNumber++;
 
-    frame1 = cvQueryFrame(capture);
-    if(!frame1) break;
+    capture >> frame1;
 
-    cvResize(frame1, frame);
+    cv::resize(frame1, frame, cv::Size(0, 0), input_resize_percent/100.0,
+            input_resize_percent/100.0);
 
     if(enableFlip)
-      cvFlip(frame, frame, 0);
+      cv::flip(frame, frame, 0);
     
     if(VC_ROI::use_roi == true && VC_ROI::roi_defined == false && firstTime == true)
     {
@@ -197,11 +200,13 @@ void VideoCapture::start()
       }while(1);
     }
 
+    /* FIXME
     if(VC_ROI::use_roi == true && VC_ROI::roi_defined == true)
     {
       CvRect rect = cvRect(VC_ROI::roi_x0, VC_ROI::roi_y0, VC_ROI::roi_x1 - VC_ROI::roi_x0, VC_ROI::roi_y1 - VC_ROI::roi_y0);
       cvSetImageROI(frame, rect);
     }
+    */
 
     cv::Mat img_input(frame);
     
@@ -218,7 +223,8 @@ void VideoCapture::start()
     fps = freq / delta_time;
     //std::cout << "FPS: " << fps << std::endl;
 
-    cvResetImageROI(frame);
+    // FIXME
+    //cvResetImageROI(frame);
 
     key = cvWaitKey(loopDelay);
     //std::cout << "key: " << key << std::endl;
@@ -235,7 +241,7 @@ void VideoCapture::start()
     firstTime = false;
   }while(1);
 
-  cvReleaseCapture(&capture);
+  capture.release();
 }
 
 void VideoCapture::saveConfig()

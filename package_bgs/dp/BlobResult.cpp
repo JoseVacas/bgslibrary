@@ -17,7 +17,7 @@ along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 /************************************************************************
 BlobResult.cpp
 
-FUNCIONALITAT: Implementació de la classe CBlobResult
+FUNCIONALITAT: Implementació de la classe CBlob2Result
 AUTOR: Inspecta S.L.
 MODIFICACIONS (Modificació, Autor, Data):
 
@@ -40,18 +40,18 @@ Constructors / Destructors
 
 
 /**
-- FUNCIÓ: CBlobResult
+- FUNCIÓ: CBlob2Result
 - FUNCIONALITAT: Constructor estandard.
 - PARÀMETRES:
 - RESULTAT:
-- Crea un CBlobResult sense cap blob
+- Crea un CBlob2Result sense cap blob
 - RESTRICCIONS:
 - AUTOR: Ricard Borràs
 - DATA DE CREACIÓ: 20-07-2004.
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobResult
+- FUNCTION: CBlob2Result
 - FUNCTIONALITY: Standard constructor
 - PARAMETERS:
 - RESULT:
@@ -61,13 +61,13 @@ Constructors / Destructors
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult::CBlobResult()
+CBlob2Result::CBlob2Result()
 {
   m_blobs = blob_vector();
 }
 
 /**
-- FUNCIÓ: CBlobResult
+- FUNCIÓ: CBlob2Result
 - FUNCIONALITAT: Constructor a partir d'una imatge. Inicialitza la seqüència de blobs 
 amb els blobs resultants de l'anàlisi de blobs de la imatge.
 - PARÀMETRES:
@@ -78,14 +78,14 @@ considerats exteriors.
 - threshold: llindar que s'aplicarà a la imatge source abans de calcular els blobs
 - findmoments: indica si s'han de calcular els moments de cada blob
 - RESULTAT:
-- objecte CBlobResult amb els blobs de la imatge source
+- objecte CBlob2Result amb els blobs de la imatge source
 - RESTRICCIONS:
 - AUTOR: Ricard Borràs
 - DATA DE CREACIÓ: 25-05-2005.
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlob
+- FUNCTION: CBlob2
 - FUNCTIONALITY: Constructor from an image. Fills an object with all the blobs in
 the image
 - PARAMETERS:
@@ -102,7 +102,7 @@ if some error appears in the BlobAnalysis function
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult::CBlobResult(IplImage *source, IplImage *mask, int threshold, bool findmoments)
+CBlob2Result::CBlob2Result(IplImage *source, IplImage *mask, int threshold, bool findmoments)
 {
   bool success;
 
@@ -120,20 +120,20 @@ CBlobResult::CBlobResult(IplImage *source, IplImage *mask, int threshold, bool f
 }
 
 /**
-- FUNCIÓ: CBlobResult
+- FUNCIÓ: CBlob2Result
 - FUNCIONALITAT: Constructor de còpia. Inicialitza la seqüència de blobs 
 amb els blobs del paràmetre.
 - PARÀMETRES:
 - source: objecte que es copiarà
 - RESULTAT:
-- objecte CBlobResult amb els blobs de l'objecte source
+- objecte CBlob2Result amb els blobs de l'objecte source
 - RESTRICCIONS:
 - AUTOR: Ricard Borràs
 - DATA DE CREACIÓ: 25-05-2005.
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: CBlobResult
+- FUNCTION: CBlob2Result
 - FUNCTIONALITY: Copy constructor
 - PARAMETERS:
 - source: object to copy
@@ -143,7 +143,7 @@ amb els blobs del paràmetre.
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult::CBlobResult( const CBlobResult &source )
+CBlob2Result::CBlob2Result( const CBlob2Result &source )
 {
   m_blobs = blob_vector( source.GetNumBlobs() );
 
@@ -156,9 +156,9 @@ CBlobResult::CBlobResult( const CBlobResult &source )
   while( pBlobsSrc != source.m_blobs.end() )
   {
     // no podem cridar a l'operador = ja que blob_vector és un 
-    // vector de CBlob*. Per tant, creem un blob nou a partir del
+    // vector de CBlob2*. Per tant, creem un blob nou a partir del
     // blob original
-    *pBlobsDst = new CBlob(**pBlobsSrc);
+    *pBlobsDst = new CBlob2(**pBlobsSrc);
     pBlobsSrc++;
     pBlobsDst++;
   }
@@ -167,7 +167,7 @@ CBlobResult::CBlobResult( const CBlobResult &source )
 
 
 /**
-- FUNCIÓ: ~CBlobResult
+- FUNCIÓ: ~CBlob2Result
 - FUNCIONALITAT: Destructor estandard.
 - PARÀMETRES:
 - RESULTAT:
@@ -178,7 +178,7 @@ CBlobResult::CBlobResult( const CBlobResult &source )
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
 /**
-- FUNCTION: ~CBlobResult
+- FUNCTION: ~CBlob2Result
 - FUNCTIONALITY: Destructor
 - PARAMETERS:
 - RESULT:
@@ -187,7 +187,7 @@ CBlobResult::CBlobResult( const CBlobResult &source )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult::~CBlobResult()
+CBlob2Result::~CBlob2Result()
 {
   ClearBlobs();
 }
@@ -219,7 +219,7 @@ Operadors / Operators
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult& CBlobResult::operator=(const CBlobResult& source)
+CBlob2Result& CBlob2Result::operator=(const CBlob2Result& source)
 {
   // si ja són el mateix, no cal fer res
   if (this != &source)
@@ -239,9 +239,9 @@ CBlobResult& CBlobResult::operator=(const CBlobResult& source)
     while( pBlobsSrc != source.m_blobs.end() )
     {
       // no podem cridar a l'operador = ja que blob_vector és un 
-      // vector de CBlob*. Per tant, creem un blob nou a partir del
+      // vector de CBlob2*. Per tant, creem un blob nou a partir del
       // blob original
-      *pBlobsDst = new CBlob(**pBlobsSrc);
+      *pBlobsDst = new CBlob2(**pBlobsSrc);
       pBlobsSrc++;
       pBlobsDst++;
     }
@@ -252,11 +252,11 @@ CBlobResult& CBlobResult::operator=(const CBlobResult& source)
 
 /**
 - FUNCIÓ: operador +
-- FUNCIONALITAT: Concatena els blobs de dos CBlobResult
+- FUNCIONALITAT: Concatena els blobs de dos CBlob2Result
 - PARÀMETRES:
 - source: d'on s'agafaran els blobs afegits a l'actual
 - RESULTAT:
-- retorna un nou CBlobResult amb els dos CBlobResult concatenats
+- retorna un nou CBlob2Result amb els dos CBlob2Result concatenats
 - RESTRICCIONS:
 - AUTOR: Ricard Borràs
 - DATA DE CREACIÓ: 25-05-2005.
@@ -275,10 +275,10 @@ CBlobResult& CBlobResult::operator=(const CBlobResult& source)
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlobResult CBlobResult::operator+( const CBlobResult& source )
+CBlob2Result CBlob2Result::operator+( const CBlob2Result& source )
 {	
   //creem el resultat a partir dels blobs actuals
-  CBlobResult resultat( *this );
+  CBlob2Result resultat( *this );
 
   // reservem memòria per als nous blobs
   resultat.m_blobs.resize( resultat.GetNumBlobs() + source.GetNumBlobs() );
@@ -291,7 +291,7 @@ CBlobResult CBlobResult::operator+( const CBlobResult& source )
   while( pBlobsSrc != source.m_blobs.end() )
   {
     pBlobsDst--;
-    *pBlobsDst = new CBlob(**pBlobsSrc);
+    *pBlobsDst = new CBlob2(**pBlobsSrc);
     pBlobsSrc++;
   }
 
@@ -314,10 +314,10 @@ Operacions / Operations
 - DATA DE CREACIÓ: 2006/03/01
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
-void CBlobResult::AddBlob( CBlob *blob )
+void CBlob2Result::AddBlob( CBlob2 *blob )
 {
   if( blob != NULL )
-    m_blobs.push_back( new CBlob( blob ) );
+    m_blobs.push_back( new CBlob2( blob ) );
 }
 
 
@@ -349,7 +349,7 @@ COperadorBlob class )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double_vector CBlobResult::GetResult( funcio_calculBlob *evaluador ) const
+double_vector CBlob2Result::GetResult( funcio_calculBlob *evaluador ) const
 {
   if( GetNumBlobs() <= 0 )
   {
@@ -399,7 +399,7 @@ COperadorBlob class )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double_stl_vector CBlobResult::GetSTLResult( funcio_calculBlob *evaluador ) const
+double_stl_vector CBlob2Result::GetSTLResult( funcio_calculBlob *evaluador ) const
 {
   if( GetNumBlobs() <= 0 )
   {
@@ -448,7 +448,7 @@ COperadorBlob class )
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-double CBlobResult::GetNumber( int indexBlob, funcio_calculBlob *evaluador ) const
+double CBlob2Result::GetNumber( int indexBlob, funcio_calculBlob *evaluador ) const
 {
   if( indexBlob < 0 || indexBlob >= GetNumBlobs() )
     RaiseError( EXCEPTION_BLOB_OUT_OF_BOUNDS );
@@ -508,7 +508,7 @@ the Condition on the result returned by evaluador on each blob
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlobResult::Filter(CBlobResult &dst, 
+void CBlob2Result::Filter(CBlob2Result &dst, 
                          int filterAction, 
                          funcio_calculBlob *evaluador, 
                          int condition, 
@@ -535,7 +535,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }				
     }
     break;
@@ -546,7 +546,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -557,7 +557,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -568,7 +568,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -579,7 +579,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -590,7 +590,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -601,7 +601,7 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
@@ -612,14 +612,14 @@ void CBlobResult::Filter(CBlobResult &dst,
       if( ( resultavaluacio && filterAction == B_INCLUDE ) ||
         ( !resultavaluacio && filterAction == B_EXCLUDE ))
       {
-        dst.m_blobs.push_back( new CBlob( GetBlob( i ) ));
+        dst.m_blobs.push_back( new CBlob2( GetBlob( i ) ));
       }
     }
     break;
   }
 
 
-  // en cas de voler filtrar un CBlobResult i deixar-ho en el mateix CBlobResult
+  // en cas de voler filtrar un CBlob2Result i deixar-ho en el mateix CBlob2Result
   // ( operacio inline )
   if( &dst == this ) 
   {
@@ -658,14 +658,14 @@ void CBlobResult::Filter(CBlobResult &dst,
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-CBlob CBlobResult::GetBlob(int indexblob) const
+CBlob2 CBlob2Result::GetBlob(int indexblob) const
 {	
   if( indexblob < 0 || indexblob >= GetNumBlobs() )
     RaiseError( EXCEPTION_BLOB_OUT_OF_BOUNDS );
 
   return *m_blobs[indexblob];
 }
-CBlob *CBlobResult::GetBlob(int indexblob)
+CBlob2 *CBlob2Result::GetBlob(int indexblob)
 {	
   if( indexblob < 0 || indexblob >= GetNumBlobs() )
     RaiseError( EXCEPTION_BLOB_OUT_OF_BOUNDS );
@@ -683,8 +683,8 @@ CBlob *CBlobResult::GetBlob(int indexblob)
 - RESULTAT:
 - retorna el blob nBlob a dst ordenant els blobs de la classe segons el criteri
 en ordre DESCENDENT. Per exemple, per obtenir el blob major:
-GetNthBlob( CBlobGetArea(), 0, blobMajor );
-GetNthBlob( CBlobGetArea(), 1, blobMajor ); (segon blob més gran)
+GetNthBlob( CBlob2GetArea(), 0, blobMajor );
+GetNthBlob( CBlob2GetArea(), 1, blobMajor ); (segon blob més gran)
 - RESTRICCIONS:
 - AUTOR: Ricard Borràs
 - DATA DE CREACIÓ: 25-05-2005.
@@ -703,13 +703,13 @@ GetNthBlob( CBlobGetArea(), 1, blobMajor ); (segon blob més gran)
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlobResult::GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob &dst ) const
+void CBlob2Result::GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob2 &dst ) const
 {
   // verifiquem que no estem accedint fora el vector de blobs
   if( nBlob < 0 || nBlob >= GetNumBlobs() )
   {
     //RaiseError( EXCEPTION_BLOB_OUT_OF_BOUNDS );
-    dst = CBlob();
+    dst = CBlob2();
     return;
   }
 
@@ -740,7 +740,7 @@ void CBlobResult::GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob &dst 
     if( *itAvaluacio == valorEnessim )
     {
       trobatBlob = true;
-      dst = CBlob( GetBlob(indexBlob));
+      dst = CBlob2( GetBlob(indexBlob));
     }
     itAvaluacio++;
     indexBlob++;
@@ -768,7 +768,7 @@ void CBlobResult::GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob &dst 
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlobResult::ClearBlobs()
+void CBlob2Result::ClearBlobs()
 {
   /*for( int i = 0; i < GetNumBlobs(); i++ )
   {
@@ -810,11 +810,11 @@ In both cases throws an exception with the error.
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlobResult::RaiseError(const int errorCode) const
+void CBlob2Result::RaiseError(const int errorCode) const
 {
   // estem en mode debug?
 //#ifdef _DEBUG
-//  CString msg, format = "Error en CBlobResult: %s";
+//  CString msg, format = "Error en CBlob2Result: %s";
 //
 //  switch (errorCode)
 //  {
@@ -862,21 +862,21 @@ de tots els blobs a un fitxer.
 - CREATION DATE: 25-05-2005.
 - MODIFICATION: Date. Author. Description.
 */
-void CBlobResult::PrintBlobs( char *nom_fitxer ) const
+void CBlob2Result::PrintBlobs( char *nom_fitxer ) const
 {
   double_stl_vector area, /*perimetre,*/ exterior, mitjana, compacitat, longitud, 
     externPerimeter, perimetreConvex, perimetre;
   int i;
   FILE *fitxer_sortida;
 
-  area      = GetSTLResult( CBlobGetArea());
-  perimetre = GetSTLResult( CBlobGetPerimeter());
-  exterior  = GetSTLResult( CBlobGetExterior());
-  mitjana   = GetSTLResult( CBlobGetMean());
-  compacitat = GetSTLResult(CBlobGetCompactness());
-  longitud  = GetSTLResult( CBlobGetLength());
-  externPerimeter = GetSTLResult( CBlobGetExternPerimeter());
-  perimetreConvex = GetSTLResult( CBlobGetHullPerimeter());
+  area      = GetSTLResult( CBlob2GetArea());
+  perimetre = GetSTLResult( CBlob2GetPerimeter());
+  exterior  = GetSTLResult( CBlob2GetExterior());
+  mitjana   = GetSTLResult( CBlob2GetMean());
+  compacitat = GetSTLResult(CBlob2GetCompactness());
+  longitud  = GetSTLResult( CBlob2GetLength());
+  externPerimeter = GetSTLResult( CBlob2GetExternPerimeter());
+  perimetreConvex = GetSTLResult( CBlob2GetHullPerimeter());
 
   fitxer_sortida = fopen( nom_fitxer, "w" );
 

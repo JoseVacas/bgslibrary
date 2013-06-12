@@ -48,23 +48,23 @@ void ConnectedComponents::Find(int threshold)
   }
 
   // extract blobs
-  m_blobs = CBlobResult(m_image->Ptr(), NULL, threshold, false);
+  m_blobs = CBlob2Result(m_image->Ptr(), NULL, threshold, false);
 
   // create a file with some of the extracted features
   //m_blobs.PrintBlobs( "output/blobs.txt" );
 
   // filter out all external blobs 
   // (i.e., connected components of pixels less than the threshold)
-  m_blobs.Filter(m_blobs, B_INCLUDE, CBlobGetMean(), B_GREATER, 1);
+  m_blobs.Filter(m_blobs, B_INCLUDE, CBlob2GetMean(), B_GREATER, 1);
 
   // create a file with filtered results
   //m_blobs.PrintBlobs("output/filteredBlobs.txt");
 }
 
-void ConnectedComponents::FilterMinArea(int area, CBlobResult& largeBlobs)
+void ConnectedComponents::FilterMinArea(int area, CBlob2Result& largeBlobs)
 {
   // discard the blobs with less area than the specified area
-  m_blobs.Filter(largeBlobs, B_INCLUDE, CBlobGetArea(), B_GREATER_OR_EQUAL, area);
+  m_blobs.Filter(largeBlobs, B_INCLUDE, CBlob2GetArea(), B_GREATER_OR_EQUAL, area);
 
   m_blobs = largeBlobs;
 }
@@ -80,7 +80,7 @@ void ConnectedComponents::GetBlobImage(RgbImage& blobImage)
     r = rand() % 128 + 127;
     g = rand() % 128 + 127;
     b = rand() % 128 + 127;
-    CBlob* blob = m_blobs.GetBlob(i);
+    CBlob2* blob = m_blobs.GetBlob(i);
     blob->FillBlob(blobImage.Ptr(), CV_RGB(r, g, b));
   }
 }
@@ -98,7 +98,7 @@ void ConnectedComponents::SaveBlobImage(char* filename)
     r = rand() % 256;
     g = rand() % 256;
     b = rand() % 256;
-    CBlob* blob = m_blobs.GetBlob(i);
+    CBlob2* blob = m_blobs.GetBlob(i);
     blob->FillBlob(outputImage, CV_RGB(r, g, b));
   }
 
@@ -115,13 +115,13 @@ void ConnectedComponents::GetComponents(RgbImage& blobImage)
   unsigned char r = 1;
   for(int i = 0; i < m_blobs.GetNumBlobs(); ++i)
   {
-    CBlob* blob = m_blobs.GetBlob(i);
+    CBlob2* blob = m_blobs.GetBlob(i);
     blob->FillBlob(blobImage.Ptr(), CV_RGB(r, r, r));
     r++;
   }
 }
 void ConnectedComponents::FilterSaliency(BwImage& highThreshold, RgbImage& blobImg, float minSaliency,
-                                         CBlobResult& salientBlobs, CBlobResult& unsalientBlobs)
+                                         CBlob2Result& salientBlobs, CBlob2Result& unsalientBlobs)
 {
   // calculate flow for each blob
   int numBlobs = m_blobs.GetNumBlobs();
@@ -147,13 +147,13 @@ void ConnectedComponents::FilterSaliency(BwImage& highThreshold, RgbImage& blobI
   }
 
   // retain only blobs with high saliency
-  CBlobResult blobs = m_blobs;
+  CBlob2Result blobs = m_blobs;
   m_blobs.ClearBlobs();
   salientBlobs.ClearBlobs();
   unsalientBlobs.ClearBlobs();
   for(int i = 0; i < numBlobs; ++i)
   {
-    CBlob* blob = blobs.GetBlob(i);
+    CBlob2* blob = blobs.GetBlob(i);
     salientPts[i] = float(salientPts[i] / blob->Area());
     if(salientPts[i] >= minSaliency)
     {
@@ -169,11 +169,11 @@ void ConnectedComponents::FilterSaliency(BwImage& highThreshold, RgbImage& blobI
   delete[] salientPts;
 }
 
-void ConnectedComponents::ColorBlobs(IplImage* image, CBlobResult& blobs, CvScalar& color)
+void ConnectedComponents::ColorBlobs(IplImage* image, CBlob2Result& blobs, CvScalar& color)
 {
   for(int i = 0; i < blobs.GetNumBlobs(); ++i)
   {
-    CBlob* blob = blobs.GetBlob(i);
+    CBlob2* blob = blobs.GetBlob(i);
     blob->FillBlob(image, color);
   }
 }

@@ -30,6 +30,7 @@ bool VideoAnalysis::setup(int argc, const char **argv)
 {
   bool flag = false;
   
+  /*
   const char* keys =
   "{hp|help|false|Print help message}"
   "{uf|use_file|false|Use video file}"
@@ -45,7 +46,7 @@ bool VideoAnalysis::setup(int argc, const char **argv)
   if(argc <= 1 || cmd.get<bool>("help") == true)
   {
     std::cout << "Usage: " << argv[0] << " [options]" << std::endl;
-    std::cout << "Avaible options:" << std::endl;
+    std::cout << "Available options:" << std::endl;
     cmd.printParams();
     return false;
   }
@@ -87,7 +88,17 @@ bool VideoAnalysis::setup(int argc, const char **argv)
     }
   }
 
+  std::cout << "flag: " << flag << std::endl;
   return flag;
+  */
+
+  use_camera = false;
+  cameraIndex = 0;
+  use_file = true;
+  filename = "/var/tmp/test_illum_market.mp4";
+  use_comp = false;
+
+  return true;
 }
 
 void VideoAnalysis::start()

@@ -17,11 +17,11 @@ along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 /************************************************************************
 BlobResult.h
 
-FUNCIONALITAT: Definició de la classe CBlobResult
+FUNCIONALITAT: Definició de la classe CBlob2Result
 AUTOR: Inspecta S.L.
 MODIFICACIONS (Modificació, Autor, Data):
 
-FUNCTIONALITY: Definition of the CBlobResult class
+FUNCTIONALITY: Definition of the CBlob2Result class
 AUTHOR: Inspecta S.L.
 MODIFICATIONS (Modification, Author, Date):
 
@@ -74,7 +74,7 @@ Excepcions / Exceptions
 #define EXCEPCIO_CALCUL_BLOBS			1001
 
 //! definició de que es un vector de blobs
-typedef std::vector<CBlob*>	blob_vector;
+typedef std::vector<CBlob2*>	blob_vector;
 
 /** 
 Classe que conté un conjunt de blobs i permet extreure'n propietats 
@@ -83,32 +83,32 @@ Class to calculate the blobs of an image and calculate some properties
 on them. Also, the class provides functions to filter the blobs using
 some criteria.
 */
-class CBlobResult  
+class CBlob2Result  
 {
 public:
 
   //! constructor estandard, crea un conjunt buit de blobs
   //! Standard constructor, it creates an empty set of blobs
-  CBlobResult();
+  CBlob2Result();
   //! constructor a partir d'una imatge
   //! Image constructor, it creates an object with the blobs of the image
-  CBlobResult(IplImage *source, IplImage *mask, int threshold, bool findmoments);
+  CBlob2Result(IplImage *source, IplImage *mask, int threshold, bool findmoments);
   //! constructor de còpia
   //! Copy constructor
-  CBlobResult( const CBlobResult &source );
+  CBlob2Result( const CBlob2Result &source );
   //! Destructor
-  virtual ~CBlobResult();
+  virtual ~CBlob2Result();
 
-  //! operador = per a fer assignacions entre CBlobResult
+  //! operador = per a fer assignacions entre CBlob2Result
   //! Assigment operator
-  CBlobResult& operator=(const CBlobResult& source);
-  //! operador + per concatenar dos CBlobResult
+  CBlob2Result& operator=(const CBlob2Result& source);
+  //! operador + per concatenar dos CBlob2Result
   //! Addition operator to concatenate two sets of blobs
-  CBlobResult operator+( const CBlobResult& source );
+  CBlob2Result operator+( const CBlob2Result& source );
 
   //! Afegeix un blob al conjunt
   //! Adds a blob to the set of blobs
-  void AddBlob( CBlob *blob );
+  void AddBlob( CBlob2 *blob );
 
   //! Calcula un valor sobre tots els blobs de la classe retornant un std::vector<double>
   //! Computes some property on all the blobs of the class
@@ -120,18 +120,18 @@ public:
 
   //! Retorna aquells blobs que compleixen les condicions del filtre en el destination 
   //! Filters the blobs of the class using some property
-  void Filter(CBlobResult &dst,
+  void Filter(CBlob2Result &dst,
     int filterAction, funcio_calculBlob *evaluador, 
     int condition, double lowLimit, double highLimit = 0 );
 
   //! Retorna l'enèssim blob segons un determinat criteri
   //! Sorts the blobs of the class acording to some criteria and returns the n-th blob
-  void GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob &dst ) const;
+  void GetNthBlob( funcio_calculBlob *criteri, int nBlob, CBlob2 &dst ) const;
 
   //! Retorna el blob enèssim
   //! Gets the n-th blob of the class ( without sorting )
-  CBlob GetBlob(int indexblob) const;
-  CBlob *GetBlob(int indexblob);
+  CBlob2 GetBlob(int indexblob) const;
+  CBlob2 *GetBlob(int indexblob);
 
   //! Elimina tots els blobs de l'objecte
   //! Clears all the blobs of the class

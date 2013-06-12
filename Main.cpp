@@ -44,6 +44,7 @@ public:
 
         if(videoAnalysis->setup(argc, argv))
         {
+          std::cout << "START" << std::endl;
           videoAnalysis->start();
 
           std::cout << "Processing finished, enter:" << std::endl;
@@ -65,7 +66,7 @@ public:
     }
     catch(...)
     {
-      std::cout << "Unknow error" << std::endl;
+      std::cout << "Unknown error" << std::endl;
       return;
     }
 

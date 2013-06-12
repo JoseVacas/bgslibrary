@@ -15,8 +15,7 @@ You should have received a copy of the GNU General Public License
 along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include <iostream>
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
 
 #include "package_bgs/FrameDifferenceBGS.h"
 #include "package_bgs/StaticFrameDifferenceBGS.h"
@@ -56,37 +55,43 @@ along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 
 int main(int argc, char **argv)
 {
-  CvCapture *capture = 0;
-  int resize_factor = 100;
+  cv::VideoCapture capture;
+  int resize_factor = 50;
 
   if(argc > 1)
-    capture = cvCaptureFromAVI(argv[1]);
+  {
+    std::cout << "Opening video " << argv[1] << std::endl;
+    capture.open(argv[1]);
+  }
   else
   {
-    capture = cvCaptureFromCAM(0);
-    resize_factor = 50; // set size = 50% of original image
+      capture.open(0);  // Default camera
   }
 
-  if(!capture)
+  if(!capture.isOpened())
   {
     std::cerr << "Cannot initialize video!" << std::endl;
     return 1;
   }
   
-  IplImage *frame_aux = cvQueryFrame(capture);
-  IplImage *frame = cvCreateImage(cvSize((int)((frame_aux->width*resize_factor)/100) , (int)((frame_aux->height*resize_factor)/100)), frame_aux->depth, frame_aux->nChannels);
-  cvResize(frame_aux, frame);
+  cv::Mat frame_aux;
+  cv::Mat frame;
+  //IplImage *frame_aux = cvQueryFrame(capture);
+  //IplImage *frame = cvCreateImage(cvSize((int)((frame_aux->width*resize_factor)/100) , (int)((frame_aux->height*resize_factor)/100)), frame_aux->depth, frame_aux->nChannels);
+  capture >> frame_aux;
+  cv::resize(frame_aux, frame, cv::Size(0, 0),  resize_factor/100.0, resize_factor/100.0);
+  //cvResize(frame_aux, frame);
 
   /* Background Subtraction Methods */
   IBGS *bgs;
 
   /*** Default Package ***/
-  bgs = new FrameDifferenceBGS;
+  //bgs = new FrameDifferenceBGS;
   //bgs = new StaticFrameDifferenceBGS;
   //bgs = new WeightedMovingMeanBGS;
   //bgs = new WeightedMovingVarianceBGS;
   //bgs = new MixtureOfGaussianV1BGS;
-  //bgs = new MixtureOfGaussianV2BGS;
+  bgs = new MixtureOfGaussianV2BGS;
   //bgs = new AdaptiveBackgroundLearning;
   //bgs = new GMG;
   
@@ -130,17 +135,17 @@ int main(int argc, char **argv)
   int key = 0;
   while(key != 'q')
   {
-    frame_aux = cvQueryFrame(capture);
-    if(!frame_aux) break;
+    //frame_aux = cvQueryFrame(capture);
+    capture >> frame_aux;
 
-    cvResize(frame_aux, frame);
+    cv::resize(frame_aux, frame, cv::Size(0, 0),  resize_factor/100.0, resize_factor/100.0);
     
-    cv::Mat img_input(frame);
-    cv::imshow("input", img_input);
+    //cv::Mat img_input(frame);
+    cv::imshow("input", frame);
 
     cv::Mat img_mask;
     cv::Mat img_bkgmodel;
-    bgs->process(img_input, img_mask, img_bkgmodel); // automatically shows the foreground mask image
+    bgs->process(frame, img_mask, img_bkgmodel); // automatically shows the foreground mask image
     
     //if(!img_mask.empty())
     //  do something
@@ -151,7 +156,7 @@ int main(int argc, char **argv)
   delete bgs;
 
   cvDestroyAllWindows();
-  cvReleaseCapture(&capture);
+  capture.release();
   
   return 0;
 }

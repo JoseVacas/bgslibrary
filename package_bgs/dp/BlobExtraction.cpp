@@ -383,7 +383,7 @@ bool BlobAnalysis(	IplImage* inputImage,
   bool CandidatExterior = false;
 
   // apuntadors als blobs de la regió actual i last
-  CBlob *regionDataThisRegion, *regionDataLastRegion;
+  CBlob2 *regionDataThisRegion, *regionDataLastRegion;
 
   LastRegion=new int[Cols+2];
   ThisRegion=new int[Cols+2];
@@ -395,8 +395,8 @@ bool BlobAnalysis(	IplImage* inputImage,
   }
 
   //create the external blob
-  RegionData.push_back( new CBlob() );
-  SubsumedRegion = NewSubsume(SubsumedRegion,0);
+  RegionData.push_back( new CBlob2() );
+  SubsumedRegion = NewSubsume2(SubsumedRegion,0);
   RegionData[0]->parent = -1;
   RegionData[0]->area = (double) Transition[0];
   RegionData[0]->perimeter = (double) (2 + 2 * Transition[0]);
@@ -479,7 +479,7 @@ bool BlobAnalysis(	IplImage* inputImage,
 #if !IMATGE_CICLICA_HORITZONTAL
         ThisStart <= 1 || ThisEnd >= Cols || 
 #endif				
-        GetExternPerimeter( ThisStart, ThisEnd, ThisRow, inputImage->width, inputImage->height, imatgePerimetreExtern )
+        GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, inputImage->width, inputImage->height, imatgePerimetreExtern )
         )
       {
         CandidatExterior = true;
@@ -563,7 +563,7 @@ bool BlobAnalysis(	IplImage* inputImage,
 
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
             ThisExternPerimeter += PERIMETRE_DIAGONAL*2;
@@ -616,7 +616,7 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisPerimeter = 2 + ThisArea + PERIMETRE_DIAGONAL*2;
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
 
@@ -629,12 +629,12 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisRegionNum = ++HighRegionNum;
           ThisArea = ThisEnd - ThisStart + 1;
           ThisPerimeter = 2 + 2 * ThisArea;
-          RegionData.push_back( new CBlob() );
+          RegionData.push_back( new CBlob2() );
           regionDataThisRegion = RegionData.back();
 
-          SubsumedRegion = NewSubsume(SubsumedRegion,HighRegionNum);
+          SubsumedRegion = NewSubsume2(SubsumedRegion,HighRegionNum);
           if( CandidatExterior )
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
             inputImage->width, inputImage->height, 
             imatgePerimetreExtern );
 
@@ -683,7 +683,7 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisPerimeter = 2 + ThisArea + PERIMETRE_DIAGONAL;
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
 
@@ -696,11 +696,11 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisRegionNum = ++HighRegionNum;
           ThisArea = ThisEnd - ThisStart + 1;
           ThisPerimeter = 2 + 2 * ThisArea;
-          RegionData.push_back( new CBlob() );
+          RegionData.push_back( new CBlob2() );
           regionDataThisRegion = RegionData.back();
-          SubsumedRegion = NewSubsume(SubsumedRegion,HighRegionNum);
+          SubsumedRegion = NewSubsume2(SubsumedRegion,HighRegionNum);
           if( CandidatExterior )
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
             inputImage->width, inputImage->height, 
             imatgePerimetreExtern );
 
@@ -757,11 +757,11 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisRegionNum = ++HighRegionNum;
           ThisArea = ThisEnd - ThisStart + 1;
           ThisPerimeter = 2 + 2 * ThisArea;
-          RegionData.push_back( new CBlob() );
+          RegionData.push_back( new CBlob2() );
           regionDataThisRegion = RegionData.back();
-          SubsumedRegion = NewSubsume(SubsumedRegion,HighRegionNum);
+          SubsumedRegion = NewSubsume2(SubsumedRegion,HighRegionNum);
           if( CandidatExterior )
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
             inputImage->width, inputImage->height, 
             imatgePerimetreExtern );
 
@@ -776,7 +776,7 @@ bool BlobAnalysis(	IplImage* inputImage,
             + PERIMETRE_DIAGONAL * (LastStart != ThisStart);
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
 
@@ -873,7 +873,7 @@ bool BlobAnalysis(	IplImage* inputImage,
             + PERIMETRE_DIAGONAL + PERIMETRE_DIAGONAL * (ThisStart!=LastStart);
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
 
@@ -954,11 +954,11 @@ bool BlobAnalysis(	IplImage* inputImage,
           ThisRegionNum = ++HighRegionNum;
           ThisArea = ThisEnd - ThisStart + 1;
           ThisPerimeter = 2 + 2 * ThisArea;
-          RegionData.push_back( new CBlob() );
+          RegionData.push_back( new CBlob2() );
           regionDataThisRegion = RegionData.back();
-          SubsumedRegion = NewSubsume(SubsumedRegion,HighRegionNum);
+          SubsumedRegion = NewSubsume2(SubsumedRegion,HighRegionNum);
           if( CandidatExterior )
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
             inputImage->width, inputImage->height, 
             imatgePerimetreExtern );
 
@@ -974,7 +974,7 @@ bool BlobAnalysis(	IplImage* inputImage,
             + PERIMETRE_DIAGONAL + PERIMETRE_DIAGONAL * (ThisStart!=LastStart);
           if( CandidatExterior )
           {
-            ThisExternPerimeter = GetExternPerimeter( ThisStart, ThisEnd, ThisRow, 
+            ThisExternPerimeter = GetExternPerimeter2( ThisStart, ThisEnd, ThisRow, 
               inputImage->width, inputImage->height, 
               imatgePerimetreExtern );
 
@@ -1238,7 +1238,7 @@ bool BlobAnalysis(	IplImage* inputImage,
   RegionData[0]->perimeter -= 8.0;
 
   blob_vector::iterator iti;
-  CBlob *blobActual;
+  CBlob2 *blobActual;
 
   if(findmoments)
   {
@@ -1327,7 +1327,7 @@ bool BlobAnalysis(	IplImage* inputImage,
 }
 
 
-int *NewSubsume(int *subsumed, int index_subsume)
+int *NewSubsume2(int *subsumed, int index_subsume)
 {
   if( index_subsume == 0 )
   {
@@ -1348,8 +1348,8 @@ al blob RegionData[LoNum]. Al final allibera el blob de RegionData[HiNum]
 void Subsume(blob_vector &RegionData,
              int HighRegionNum,
              int* SubsumedRegion,
-             CBlob* blobHi,
-             CBlob* blobLo,
+             CBlob2* blobHi,
+             CBlob2* blobLo,
              bool findmoments,
              int HiNum,
              int LoNum)
@@ -1397,7 +1397,7 @@ void Subsume(blob_vector &RegionData,
 }
 
 /**
-- FUNCIÓ: GetExternPerimeter
+- FUNCIÓ: GetExternPerimeter2
 - FUNCIONALITAT: Retorna el perimetre extern d'una run lenght
 - PARÀMETRES:
 - start: columna d'inici del run
@@ -1412,7 +1412,7 @@ d'una única fila d'alçada
 - DATA DE CREACIÓ: 2006/02/27
 - MODIFICACIÓ: Data. Autor. Descripció.
 */
-double GetExternPerimeter( int start, int end, int row, int width, int height, IplImage *imatgePerimetreExtern )
+double GetExternPerimeter2( int start, int end, int row, int width, int height, IplImage *imatgePerimetreExtern )
 {
   double perimeter = 0.0f;
   char *pPerimetre;

@@ -3,7 +3,7 @@
 <tictoc>""</tictoc>
 <enablePreProcessor>1</enablePreProcessor>
 <enableForegroundMaskAnalysis>0</enableForegroundMaskAnalysis>
-<enableFrameDifferenceBGS>0</enableFrameDifferenceBGS>
+<enableFrameDifferenceBGS>1</enableFrameDifferenceBGS>
 <enableStaticFrameDifferenceBGS>0</enableStaticFrameDifferenceBGS>
 <enableWeightedMovingMeanBGS>0</enableWeightedMovingMeanBGS>
 <enableWeightedMovingVarianceBGS>0</enableWeightedMovingVarianceBGS>

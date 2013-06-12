@@ -37,10 +37,10 @@ bool BlobAnalysis(IplImage* inputImage, uchar threshold, IplImage* maskImage,
 // FUNCIONS AUXILIARS
 
 //! Fusiona dos blobs
-void Subsume(blob_vector &RegionData, int, int*, CBlob*, CBlob*, bool, int, int );
+void Subsume(blob_vector &RegionData, int, int*, CBlob2*, CBlob2*, bool, int, int );
 //! Reallocata el vector auxiliar de blobs subsumats
-int *NewSubsume(int *SubSumedRegion, int elems_inbuffer);
+int *NewSubsume2(int *SubSumedRegion, int elems_inbuffer);
 //! Retorna el perimetre extern d'una run lenght
-double GetExternPerimeter( int start, int end, int row, int width, int height, IplImage *maskImage );
+double GetExternPerimeter2( int start, int end, int row, int width, int height, IplImage *maskImage );
 
 #endif //_CLASSE_BLOBEXTRACTION_INCLUDED

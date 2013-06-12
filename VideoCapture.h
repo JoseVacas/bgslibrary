@@ -17,8 +17,7 @@ along with BGSLibrary.  If not, see <http://www.gnu.org/licenses/>.
 #pragma once
 
 #include <iostream>
-#include <cv.h>
-#include <highgui.h>
+#include <opencv2/opencv.hpp>
 
 #include "Config.h"
 #include "IFrameProcessor.h"
@@ -27,8 +26,8 @@ class VideoCapture
 {
 private:
   IFrameProcessor* frameProcessor;
-  CvCapture* capture;
-  IplImage* frame;
+  cv::VideoCapture capture;
+  cv::Mat frame;
   int key;
   int64 start_time;
   int64 delta_time;

@@ -45,7 +45,7 @@ public:
 
   void Find(int threshold);
 
-  void FilterMinArea(int area, CBlobResult& largeBlobs);
+  void FilterMinArea(int area, CBlob2Result& largeBlobs);
 
   void GetBlobImage(RgbImage& blobImage);
   void SaveBlobImage(char* filename);
@@ -53,14 +53,14 @@ public:
   void GetComponents(RgbImage& blobImage);
 
   void FilterSaliency(BwImage& highThreshold, RgbImage& blobImg, float minSaliency, 
-                          CBlobResult& salientBlobs, CBlobResult& unsalientBlobs);
+                          CBlob2Result& salientBlobs, CBlob2Result& unsalientBlobs);
 
-  void ColorBlobs(IplImage* image, CBlobResult& blobs, CvScalar& color);
+  void ColorBlobs(IplImage* image, CBlob2Result& blobs, CvScalar& color);
 
 private:
   BwImage* m_image;
 
-  CBlobResult m_blobs;
+  CBlob2Result m_blobs;
 };
 
 #endif
